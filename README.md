@@ -21,10 +21,9 @@ The basic usage is
 
 So, for example,
 
-    lexeduct.js upper <input.txt
+    echo 'Hello!' | lexeduct.js upper
 
-and an uppercased version of the contents of `input.txt` will be dumped to
-the standard output.
+will dump the string `HELLO!` to standard output.
 
 You can of course use shell pipelines to compose filters:
 
@@ -42,21 +41,26 @@ The idea is that this repository will eventually contain a giant catalogue
 of possible text filters that can be composed.  Or at least, more than four.
 
 Each filter is in a seperate Javascript file in the `src/filter` directory
-which exports, node-style, a single function called `filter` which takes
-two arguments.  For example, here is the source of the `upper` filter, found
+which exports, node-style, a single function called `makeFilter` which takes
+a configuration object and returns a filter function.  The filter function
+takes two arguments: the current string of text to process, and (optionally)
+an object which can be used to store ancillary state.  It should return
+either a string, or null (not yet supported), or an array of strings (not yet
+supported.)
+
+As a simple example, here is the source of the `upper` filter, found
 in `src/filter/upper.js`:
 
     module.exports = {
-        filter: function(line, state) {
-            return line.toUpperCase();
+        makeFilter: function(cfg) {
+            return function(line, state) {
+                return line.toUpperCase();
+            };
         }
     };
 
 `state` is an object whose members may be read or written to store ancillary
 state.  (Doing so will make it an 'impure' pipeline.)
-
-**NOTE**: this interface is likely to change real soon now, to support passing
-parameters to filters.
 
 TODO
 ----

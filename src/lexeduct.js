@@ -16,12 +16,17 @@ var compose = function(g, f) {
     };
 };
 
+/*
+ * Load the filters that were specified on the command line.
+ */
 for (var i = 0; i < args.length; i++) {
+    // TODO: parse filter parameters off end of args[i]
     var module = require('./filter/' + args[i]);
+    var loadedFilter = module.makeFilter({});
     if (filter === undefined) {
-        filter = module.filter;
+        filter = loadedFilter;
     } else {
-        filter = compose(module.filter, filter);
+        filter = compose(loadedFilter, filter);
     }
 }
 

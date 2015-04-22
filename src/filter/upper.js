@@ -1,5 +1,7 @@
 module.exports = {
-    filter: function(line, state) {
-        return line.toUpperCase();
+    makeFilter: function(cfg) {
+        return function(line, state) {
+            return line.toUpperCase();
+        };
     }
 };
