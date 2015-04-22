@@ -7,12 +7,13 @@ function write(s) {
 }
 
 write("module = {};");
-write("makeFilter = {};");
-var files = fs.readdirSync('filter');
+write("makeTransformer = {};");
+var dirname = 'transformers';
+var files = fs.readdirSync(dirname);
 for (var i = 0; i < files.length; i++) {
     var filename = files[i];
-    var filterName = filename.split('.js')[0];
-    var text = fs.readFileSync('filter/' + filename);
+    var transformerName = filename.split('.js')[0];
+    var text = fs.readFileSync(dirname + '/' + filename);
     write(text);
-    write("makeFilter['" + filterName + "'] = module.exports.makeFilter;");
+    write("makeTransformer['" + transformerName + "'] = module.exports.makeTransformer;");
 }

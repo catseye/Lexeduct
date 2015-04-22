@@ -17,51 +17,52 @@ search path (e.g. `export PATH=$PATH:/path/to/lexeduct/src`) and run it as
 
 The basic usage is
 
-    lexeduct.js {param=value|filter-name}
+    lexeduct.js {param=value|transformer-name}
 
 So, for example,
 
-    echo 'Hello!' | lexeduct.js upper
+    $ echo 'Hello!' | lexeduct.js upper
+    HELLO
 
-will dump the string `HELLO!` to standard output.
+You can of course use shell pipelines to compose transformers:
 
-You can of course use shell pipelines to compose filters:
+    $ echo 'Hello!' | lexeduct.js upper | lexeduct.js double-space
+    H E L L O !
 
-    cat input.txt | lexeduct.js upper | lexeduct.js double-space
+*Or* you can name multiple transformers on `lexeduct.js`'s command line to
+compose them:
 
-*Or* you can name multiple filters on `lexeduct.js`'s command line to compose
-them:
-
-    lexeduct.js upper double-space <input.txt
+    $ echo 'Hello!' | lexeduct.js upper double-space
+    H E L L O !
 
 Parameters can be given with the syntax `name=value` *before* the name of the
-filter they are to be applied to.  So, for example,
+transformer they are to be applied to.  So, for example,
 
-    echo 'Hello' | lexeduct.js chars=e remove-chars
-
+    $ echo 'Hello' | lexeduct.js chars=e remove-chars
     Hllo
 
-Filters
--------
+Transformers
+------------
 
 The idea is that this repository will eventually contain a giant catalogue
-of possible text filters that can be composed.  Or at least, more than four.
+of possible text transformers that can be composed.  Or at least, more than
+are presently included.
 
-Each filter is in a seperate Javascript file in the `src/filter` directory
-which exports, node-style, a single function called `makeFilter` which takes
-a configuration object and returns a filter function.  The filter function
-takes two arguments: the current string of text to process, and (optionally)
-an object which can be used to store ancillary state.  It should return
-either a string, or null (not yet supported), or an array of strings (not yet
-supported.)
+Each transformer is in a seperate Javascript file in the `src/transformers`
+directory which exports, node-style, a single function called `makeTransformer`
+which takes a configuration object and returns a transformer function.  The
+transformer function takes two arguments: the current string to process, and
+(optionally) an object which can be used to store ancillary state.  Every
+transformer function should return either a string, or null (not yet supported),
+or an array of strings (not yet supported.)
 
-As a simple example, here is the source of the `upper` filter, found
-in `src/filter/upper.js`:
+As a simple example, here is the source of the `upper` transformer, found
+in `src/transformers/upper.js`:
 
     module.exports = {
-        makeFilter: function(cfg) {
-            return function(line, state) {
-                return line.toUpperCase();
+        makeTransformer: function(cfg) {
+            return function(str, state) {
+                return str.toUpperCase();
             };
         }
     };
@@ -74,5 +75,4 @@ TODO
 
 *   Allow filters to do something at the very end, maybe.
 *   Allow filters return multiple, or no, strings.
-*   Remove "line" nomenclature; they're "records", default record sep = newline.
 *   Many, many other things.

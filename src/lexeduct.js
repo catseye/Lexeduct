@@ -7,17 +7,17 @@
  * except with 'data' parameter also.
  */
 var compose = function(g, f) {
-    return function(line, data) {
-        line = f(line, data);
-        return g(line, data);
+    return function(str, data) {
+        str = f(str, data);
+        return g(str, data);
     };
 };
 
 /*
  * Implement the pipeline, streaming, from the input file, using the
- * given filter, calling the given output function at the end of the pipe.
+ * given transformer, calling the given output function at the end of the pipe.
  */
-var pipeline = function(infile, output, filter) {
+var pipeline = function(infile, output, transformer) {
     var buffer = "";
     var state = {};
 
@@ -32,20 +32,20 @@ var pipeline = function(infile, output, filter) {
         buffer = lines[lines.length - 1];
 
         for (var i = 0; i < lines.length - 1; i++) {
-            output(filter(lines[i], state));
+            output(transformer(lines[i], state));
         }
     });
 
     infile.on('end', function() {
-        output(filter(buffer, state));
+        output(transformer(buffer, state));
     });
 };
 
 /*
- * Load the filters that were specified on the command line.
+ * Load the transformers that were specified on the command line.
  */
-var loadFilters = function(args) {
-    var filter = undefined;
+var loadTransformers = function(args) {
+    var transformer = undefined;
     var cfg = {};
 
     for (var i = 0; i < args.length; i++) {
@@ -53,17 +53,17 @@ var loadFilters = function(args) {
         if (paramPair.length == 2) {
             cfg[paramPair[0]] = paramPair[1];
         } else {
-            var module = require('./filter/' + args[i]);
-            var loadedFilter = module.makeFilter(cfg);
+            var module = require('./transformers/' + args[i]);
+            var loadedTransformer = module.makeTransformer(cfg);
             cfg = {};
-            if (filter === undefined) {
-                filter = loadedFilter;
+            if (transformer === undefined) {
+                transformer = loadedTransformer;
             } else {
-                filter = compose(loadedFilter, filter);
+                transformer = compose(loadedTransformer, transformer);
             }
         }
     }
-    return filter;
+    return transformer;
 };
 
 /*
@@ -81,6 +81,6 @@ var output = function(line) {
  */
 (function() {
     var args = process.argv.slice(2);
-    var filter = loadFilters(args);
-    pipeline(process.stdin, output, filter);
+    var transformer = loadTransformers(args);
+    pipeline(process.stdin, output, transformer);
 })();

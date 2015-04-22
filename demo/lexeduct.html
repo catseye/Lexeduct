@@ -26,8 +26,8 @@ What do you think of this?
 <script>
 function process() {
     var inputText = document.getElementById('input').value;
-    var f = makeFilter['upper']({});
-    var outputText = f(inputText);
+    var t = makeTransformer['upper']({});
+    var outputText = t(inputText);
     document.getElementById('output').value = outputText;
 }
 </script>
