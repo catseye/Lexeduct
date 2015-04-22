@@ -24,22 +24,22 @@ So, for example,
     $ echo 'Hello!' | lexeduct.js upper
     HELLO
 
+Parameters can be given with the syntax `name=value` before the name of the
+transformer they are to be applied to.  So, for example,
+
+    $ echo 'Hello' | lexeduct.js chars=e remove-chars
+    Hllo
+
 You can of course use shell pipelines to compose transformers:
 
-    $ echo 'Hello!' | lexeduct.js upper | lexeduct.js double-space
+    $ echo 'Hello!' | lexeduct.js upper | lexeduct.js 'chars= ' insert-chars
     H E L L O !
 
 *Or* you can name multiple transformers on `lexeduct.js`'s command line to
 compose them:
 
-    $ echo 'Hello!' | lexeduct.js upper double-space
+    $ echo 'Hello!' | lexeduct.js upper 'chars= ' insert-chars
     H E L L O !
-
-Parameters can be given with the syntax `name=value` *before* the name of the
-transformer they are to be applied to.  So, for example,
-
-    $ echo 'Hello' | lexeduct.js chars=e remove-chars
-    Hllo
 
 Transformers
 ------------
