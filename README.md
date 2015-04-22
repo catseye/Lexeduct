@@ -17,7 +17,7 @@ search path (e.g. `export PATH=$PATH:/path/to/lexeduct/src`) and run it as
 
 The basic usage is
 
-    lexeduct.js {filter}
+    lexeduct.js {param=value|filter-name}
 
 So, for example,
 
@@ -33,6 +33,13 @@ You can of course use shell pipelines to compose filters:
 them:
 
     lexeduct.js upper double-space <input.txt
+
+Parameters can be given with the syntax `name=value` *before* the name of the
+filter they are to be applied to.  So, for example,
+
+    echo 'Hello' | lexeduct.js chars=e remove-chars
+
+    Hllo
 
 Filters
 -------
@@ -65,6 +72,7 @@ state.  (Doing so will make it an 'impure' pipeline.)
 TODO
 ----
 
-*   Allow filters to take parameters, possibly.
 *   Allow filters to do something at the very end, maybe.
+*   Allow filters return multiple, or no, strings.
+*   Remove "line" nomenclature; they're "records", default record sep = newline.
 *   Many, many other things.

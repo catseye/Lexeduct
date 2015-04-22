@@ -46,14 +46,21 @@ var pipeline = function(infile, output, filter) {
  */
 var loadFilters = function(args) {
     var filter = undefined;
+    var cfg = {};
+
     for (var i = 0; i < args.length; i++) {
-        // TODO: parse filter parameters off end of args[i]
-        var module = require('./filter/' + args[i]);
-        var loadedFilter = module.makeFilter({});
-        if (filter === undefined) {
-            filter = loadedFilter;
+        var paramPair = args[i].split('=');
+        if (paramPair.length == 2) {
+            cfg[paramPair[0]] = paramPair[1];
         } else {
-            filter = compose(loadedFilter, filter);
+            var module = require('./filter/' + args[i]);
+            var loadedFilter = module.makeFilter(cfg);
+            cfg = {};
+            if (filter === undefined) {
+                filter = loadedFilter;
+            } else {
+                filter = compose(loadedFilter, filter);
+            }
         }
     }
     return filter;
