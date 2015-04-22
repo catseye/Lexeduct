@@ -10,12 +10,8 @@
 </header>
 
 </body>
+<script src="lexeduct-browser.js"></script>
 <script>
-/* TODO: do this in a much better way */
-  var module = {};
-</script>
-<script src="../src/filter/upper.js"></script>
-<script>
-  var f = module.exports.filter;
+  var f = makeFilter['upper']({});
   alert(f('hi thEre'));
 </script>

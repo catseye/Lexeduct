@@ -1,0 +1,3 @@
+syntax: glob
+
+demo/lexeduct-browser.js
