@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd src
-./gen-lexeduct-browser.py >../demo/lexeduct-browser.js
+node gen-lexeduct-browser.js >../demo/lexeduct-browser.js
