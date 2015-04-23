@@ -4,8 +4,14 @@ Lexeduct
 **Lexeduct** is an experimental framework for text-processing pipelines, written
 in Javascript, usable in both node and in the browser (knock on wood.)
 
-It is currently at a what is this I don't even stage of development.  The
+It is currently at a *what is this I don't even* stage of development.  The
 framework and usage and everything is subject to change without notice.
+
+Being a framework, Lexeduct inevitably handles some use cases well, and other
+use cases poorly.  Don't expect too much from it.  More details here soon.
+
+The name "Lexeduct" is in analogy with "aqueduct": conduits for words intead
+of water.
 
 Basic Usage
 -----------
@@ -41,6 +47,14 @@ compose them:
     $ echo 'Hello!' | lexeduct.js upper 'chars= ' insert-chars
     H E L L O !
 
+Multiple transformers are applied left-to-right.
+
+    $ echo 'Hello!' | lexeduct.js 'chars=a' insert-chars upper
+    HAEALALAOA!A
+
+    $ echo 'Hello!' | lexeduct.js upper 'chars=a' insert-chars
+    HaEaLaLaOa!a
+
 Transformers
 ------------
 
@@ -70,9 +84,21 @@ in `src/transformers/upper.js`:
 `state` is an object whose members may be read or written to store ancillary
 state.  (Doing so will make it an 'impure' pipeline.)
 
+Acknowledgements
+----------------
+
+Lexeduct was partly inspired by, and is partly a product of parallel evolution
+resembling, [Michael Paulukonis][]'s [TextMunger][].  It is also indebted to
+various and sundry discussion with him and others on the
+[GenerativeText Forum][].
+
 TODO
 ----
 
 *   Allow filters to do something at the very end, maybe.
 *   Allow filters return multiple, or no, strings.
 *   Many, many other things.
+
+[Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
+[TextMunger]:           https://github.com/MichaelPaulukonis/text-munger
+[GenerativeText Forum]: https://groups.google.com/forum/#!forum/generativetext
