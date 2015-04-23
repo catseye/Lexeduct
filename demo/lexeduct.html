@@ -9,25 +9,18 @@
   <h1>Lexeduct</h1>
 </header>
 
-<div>
-<textarea id="input" rows="20" cols="40">
-Hello, there!
-What do you think of this?
-</textarea>
-
-<button onclick="process();">Process</button>
-
-<textarea id="output" rows="20" cols="40">
-</textarea>
-</div>
+<div id="container"></div>
 
 </body>
 <script src="lexeduct-browser.js"></script>
+<script src="yoob/element-factory.js"></script>
 <script>
-function process() {
-    var inputText = document.getElementById('input').value;
+var container, input, output, process;
+container = document.getElementById('container');
+input = yoob.makeTextArea(container, 40, 20, "Hello, there!\nWhat do you think?");
+process = yoob.makeButton(container, "Process", function() {
     var t = makeTransformer['upper']({});
-    var outputText = t(inputText);
-    document.getElementById('output').value = outputText;
-}
+    output.value = t(input.value);
+});
+output = yoob.makeTextArea(container, 40, 20);
 </script>
