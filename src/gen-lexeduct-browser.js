@@ -7,7 +7,7 @@ function write(s) {
 }
 
 write("module = {};");
-write("makeTransformer = {};");
+write("transformer = {};");
 var dirname = 'transformers';
 var files = fs.readdirSync(dirname);
 for (var i = 0; i < files.length; i++) {
@@ -15,5 +15,5 @@ for (var i = 0; i < files.length; i++) {
     var transformerName = filename.split('.js')[0];
     var text = fs.readFileSync(dirname + '/' + filename);
     write(text);
-    write("makeTransformer['" + transformerName + "'] = module.exports.makeTransformer;");
+    write("transformer['" + transformerName + "'] = module.exports;");
 }

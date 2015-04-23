@@ -3,7 +3,8 @@ module.exports = {
         return function(str, state) {
             var s = "";
             for (var i = 0; i < str.length; i++) {
-                if (cfg.chars.indexOf(str.charAt(i)) === -1) {
+                var c = str.charAt(i);
+                if (cfg.chars.indexOf(c) === -1) {
                     s += c;
                 }
             }

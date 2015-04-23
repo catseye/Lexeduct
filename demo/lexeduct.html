@@ -17,6 +17,13 @@
 <script>
 "use strict";
 
+var compose = function(g, f) {
+    return function(str, data) {
+        str = f(str, data);
+        return g(str, data);
+    };
+};
+
 var container, input, output, processButton, tranformersPanel;
 
 container = document.getElementById('container');
@@ -28,8 +35,8 @@ transformersPanel.style.display = "inline-block";
 transformersPanel.style.verticalAlign = "top";
 
 var transformerNames = [["identity", "---"]];
-for (var key in makeTransformer) {
-    if (key !== 'identity' && makeTransformer.hasOwnProperty(key)) {
+for (var key in transformer) {
+    if (key !== 'identity' && transformer.hasOwnProperty(key)) {
         transformerNames.push([key, key]);
     }
 }
@@ -48,13 +55,13 @@ for (var i = 0; i < MAX_TRANSFORMERS; i++) {
 }
 
 processButton = yoob.makeButton(transformersPanel, "Process", function() {
-    var z = "";
+    var t = transformer['identity'].makeTransformer({});
     for (var i = 0; i < transformerSelects.length; i++) {
         var select = transformerSelects[i];
-        z += select.options[select.selectedIndex].value +','
+        var transformerName = select.options[select.selectedIndex].value;
+        var t2 = transformer[transformerName].makeTransformer({chars: 'a'});
+        t = compose(t2, t);
     }
-    alert(z);
-    var t = makeTransformer['upper']({});
     output.value = t(input.value);
 });
 
