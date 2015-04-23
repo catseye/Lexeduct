@@ -8,5 +8,9 @@ module.exports = {
             }
             return s;
         };
-    }
+    },
+    parameters: {
+        'chars': "The set of characters to select from"
+    },
+    description: "Insert a randomly-selected character after each character"
 };

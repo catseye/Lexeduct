@@ -3,5 +3,7 @@ module.exports = {
         return function(str, state) {
             return str;
         };
-    }
+    },
+    parameters: {},
+    description: "Identity transformation: makes no changes"
 };
