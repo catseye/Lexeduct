@@ -29,22 +29,31 @@ transformersPanel.style.verticalAlign = "top";
 
 var transformerNames = [["identity", "---"]];
 for (var key in makeTransformer) {
-    if (makeTransformer.hasOwnProperty(key)) {
+    if (key !== 'identity' && makeTransformer.hasOwnProperty(key)) {
         transformerNames.push([key, key]);
     }
 }
 
 var MAX_TRANSFORMERS = 8; // TODO dynamic
-var transformers = new Array(MAX_TRANSFORMERS);
+var transformerSelects = [];
 
 for (var i = 0; i < MAX_TRANSFORMERS; i++) {
-    yoob.makeSelect(transformersPanel, "Transformer " + (i+1), transformerNames);
+    var select = yoob.makeSelect(
+        transformersPanel, "Transformer " + (i+1), transformerNames
+    );
+    transformerSelects.push(select);
     yoob.makeLineBreak(transformersPanel);
     yoob.makeTextInput(transformersPanel, 24);
     yoob.makeLineBreak(transformersPanel);
 }
 
 processButton = yoob.makeButton(transformersPanel, "Process", function() {
+    var z = "";
+    for (var i = 0; i < transformerSelects.length; i++) {
+        var select = transformerSelects[i];
+        z += select.options[select.selectedIndex].value +','
+    }
+    alert(z);
     var t = makeTransformer['upper']({});
     output.value = t(input.value);
 });
