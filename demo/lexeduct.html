@@ -15,12 +15,39 @@
 <script src="lexeduct-browser.js"></script>
 <script src="yoob/element-factory.js"></script>
 <script>
-var container, input, output, process;
+"use strict";
+
+var container, input, output, processButton, tranformersPanel;
+
 container = document.getElementById('container');
 input = yoob.makeTextArea(container, 40, 20, "Hello, there!\nWhat do you think?");
-process = yoob.makeButton(container, "Process", function() {
+
+var transformersPanel = yoob.makeDiv(container);
+transformersPanel.style.border = "2px solid black";
+transformersPanel.style.display = "inline-block";
+transformersPanel.style.verticalAlign = "top";
+
+var transformerNames = [["identity", "---"]];
+for (var key in makeTransformer) {
+    if (makeTransformer.hasOwnProperty(key)) {
+        transformerNames.push([key, key]);
+    }
+}
+
+var MAX_TRANSFORMERS = 8; // TODO dynamic
+var transformers = new Array(MAX_TRANSFORMERS);
+
+for (var i = 0; i < MAX_TRANSFORMERS; i++) {
+    yoob.makeSelect(transformersPanel, "Transformer " + (i+1), transformerNames);
+    yoob.makeLineBreak(transformersPanel);
+    yoob.makeTextInput(transformersPanel, 24);
+    yoob.makeLineBreak(transformersPanel);
+}
+
+processButton = yoob.makeButton(transformersPanel, "Process", function() {
     var t = makeTransformer['upper']({});
     output.value = t(input.value);
 });
+
 output = yoob.makeTextArea(container, 40, 20);
 </script>
