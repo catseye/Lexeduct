@@ -34,7 +34,7 @@ transformersPanel.style.border = "2px solid black";
 transformersPanel.style.display = "inline-block";
 transformersPanel.style.verticalAlign = "top";
 
-var MAX_TRANSFORMERS = 8; // TODO dynamic
+var MAX_TRANSFORMER_SLOTS = 8; // TODO dynamic
 var transformerSlots = [];
 
 var transformerNames = [["identity", "---"]];
@@ -56,21 +56,6 @@ var parseOptions = function(text) {
         }
     }
     return cfg;
-};
-
-var makeParametersPanel = function(container, parameters) {
-    var panel = yoob.makeDiv(container);
-    for (var key in parameters) {
-        if (parameters.hasOwnProperty(key)) {
-            var label = yoob.makeSpan(panel, key);
-            label.style.width = "50%";
-            var input = yoob.makeTextInput(panel, 24);
-            input.style.width = "50%";
-            // TODO: populate it with the default
-            yoob.makeLineBreak(panel);
-        }
-    }
-    return panel;
 };
 
 var process = function() {
@@ -98,18 +83,37 @@ yoob.makeCheckbox(transformersPanel, false, "Live mode", function(b) {
 });
 yoob.makeLineBreak(transformersPanel);
 
-for (var i = 0; i < MAX_TRANSFORMERS; i++) {
-    // XXX this now needs to be a closure to captur variables correctly
+var updateParametersPanel = function(panel, parameters) {
+    panel.innerHTML = "";  // delete any previous controls
+    for (var key in parameters) {
+        if (parameters.hasOwnProperty(key)) {
+            var label = yoob.makeSpan(panel, key);
+            label.style.width = "50%";
+            var input = yoob.makeTextInput(panel, 24);
+            input.style.width = "50%";
+            // TODO: populate it with the default
+            input.onchange = function() {
+                alert('TODO: update transformerSlots.selectedParameters or smth here');
+                if (liveMode) {
+                    process();
+                }
+            }
+            yoob.makeLineBreak(panel);
+        }
+    }
+};
+
+var makeTransformerSlot = function(container, index) {
     var select = yoob.makeSelect(
         transformersPanel, "Transformer " + (i+1), transformerNames
     );
     yoob.makeLineBreak(transformersPanel);
-    var panelContainer = yoob.makeDiv(transformersPanel);
+    var parametersPanel = yoob.makeDiv(transformersPanel);
     select.onchange = function(e) {
         if (liveMode) {
             process();
         }
-        makeParametersPanel(panelContainer);
+        updateParametersPanel(parametersPanel);
     };
 
     //------------ deprecated...
@@ -123,11 +127,16 @@ for (var i = 0; i < MAX_TRANSFORMERS; i++) {
     yoob.makeLineBreak(transformersPanel);
     //------------
 
-
-    transformerSlots.push({
+    return {
         select: select,
-        optionsInput: optionsInput
-    });
+        optionsInput: optionsInput,
+        parametersPanel: parametersPanel
+    };
+};
+
+for (var i = 0; i < MAX_TRANSFORMER_SLOTS; i++) {
+    var slot = makeTransformerSlot(transformersPanel, index);
+    transformerSlots.push(slot);
 }
 
 output = yoob.makeTextArea(container, 40, 20);
