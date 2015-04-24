@@ -61,10 +61,9 @@ var parseOptions = function(text) {
 var process = function() {
     var t = transformer['identity'].makeTransformer({});
     for (var i = 0; i < transformerSlots.length; i++) {
-        var select = transformerSlots[i].select;
-        var transformerName = select.options[select.selectedIndex].value;
-        var params = parseOptions(transformerSlots[i].optionsInput.value);
-        var t2 = transformer[transformerName].makeTransformer(params);
+        var transformerName = transformerSlots[i].name;
+        var selectedParams = transformerSlots[i].selectedParams;
+        var t2 = transformer[transformerName].makeTransformer(selectedParams);
         t = compose(t2, t);
     }
     var inLines = input.value.split('\n');
@@ -105,15 +104,23 @@ var updateParametersPanel = function(panel, parameters) {
 
 var makeTransformerSlot = function(container, index) {
     var select = yoob.makeSelect(
-        transformersPanel, "Transformer " + (i+1), transformerNames
+        transformersPanel, "Transformer " + (index+1), transformerNames
     );
     yoob.makeLineBreak(transformersPanel);
     var parametersPanel = yoob.makeDiv(transformersPanel);
+    
+    var getSelectedParams = function(panel) {
+        // TODO FIXME
+        return parseOptions(transformerSlots[i].optionsInput.value);
+    };
+
     select.onchange = function(e) {
+        updateParametersPanel(parametersPanel);
+        transformerSlots[index].name = select.options[select.selectedIndex].value;
+        transformerSlots[index].selectedParams = getSelectedParams(parametersPanel);
         if (liveMode) {
             process();
         }
-        updateParametersPanel(parametersPanel);
     };
 
     //------------ deprecated...
