@@ -84,6 +84,16 @@ in `src/transformers/upper.js`:
 `state` is an object whose members may be read or written to store ancillary
 state.  (Doing so will make it an 'impure' pipeline.)
 
+In-Browser Version
+------------------
+
+Run `./make.sh` from this directory (or the commands it contains) to generate
+a Javascript file which contains all the available transformers in a format
+suitable for loading in an HTML document.
+
+Open `demo/lexeduct.html` in your browser.  It provides a UI for composing
+these transformers and applying them to text provided in a textarea.
+
 Acknowledgements
 ----------------
 
@@ -98,6 +108,13 @@ TODO
 *   Allow filters to do something at the very end, maybe.
 *   Allow filters return multiple, or no, strings.
 *   Many, many other things.
+
+### In-browser UI ###
+
+*   Dynamically allocate the number of transformer-slots.
+*   Provide "insert" and "delete" operations on each transformer-slot.
+*   Display the description for each select transformer, in a tooltip(?)
+*   Create prompts for available params dynamically in each transformer-slot.
 
 [Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
 [TextMunger]:           https://github.com/MichaelPaulukonis/text-munger

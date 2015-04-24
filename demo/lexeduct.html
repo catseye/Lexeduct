@@ -34,6 +34,9 @@ transformersPanel.style.border = "2px solid black";
 transformersPanel.style.display = "inline-block";
 transformersPanel.style.verticalAlign = "top";
 
+var MAX_TRANSFORMERS = 8; // TODO dynamic
+var transformerSlots = [];
+
 var transformerNames = [["identity", "---"]];
 for (var key in transformer) {
     if (key !== 'identity' && transformer.hasOwnProperty(key)) {
@@ -41,29 +44,68 @@ for (var key in transformer) {
     }
 }
 
-var MAX_TRANSFORMERS = 8; // TODO dynamic
-var transformerSelects = [];
+var parseOptions = function(text) {
+    var args = text.split(' ');
+    var cfg = {};
+    for (var i = 0; i < args.length; i++) {
+        var paramPair = args[i].split('=');
+        if (paramPair.length == 2) {
+            cfg[paramPair[0]] = paramPair[1];
+        } else {
+            // register an error
+        }
+    }
+    return cfg;
+};
+
+var process = function() {
+    var t = transformer['identity'].makeTransformer({});
+    for (var i = 0; i < transformerSlots.length; i++) {
+        var select = transformerSlots[i].select;
+        var transformerName = select.options[select.selectedIndex].value;
+        var options = parseOptions(transformerSlots[i].optionsInput.value);
+        var t2 = transformer[transformerName].makeTransformer(options);
+        t = compose(t2, t);
+    }
+    var inLines = input.value.split('\n');
+    var outLines = [];
+    for (var i = 0; i < inLines.length; i++) {
+        outLines.push(t(inLines[i]));
+    }
+    output.value = outLines.join('\n');
+};
+
+processButton = yoob.makeButton(transformersPanel, "Process", process);
+
+var liveMode;
+yoob.makeCheckbox(transformersPanel, false, "Live mode", function(b) {
+    liveMode = b;
+});
+yoob.makeLineBreak(transformersPanel);
 
 for (var i = 0; i < MAX_TRANSFORMERS; i++) {
     var select = yoob.makeSelect(
         transformersPanel, "Transformer " + (i+1), transformerNames
     );
-    transformerSelects.push(select);
+    select.onchange = function(e) {
+        if (liveMode) {
+            process();
+        }
+    };
     yoob.makeLineBreak(transformersPanel);
-    yoob.makeTextInput(transformersPanel, 24);
+    var optionsInput = yoob.makeTextInput(transformersPanel, 24);
+    optionsInput.onchange = function(e) {
+        if (liveMode) {
+            process();
+        }
+    };
+    optionsInput.title = "Options";
     yoob.makeLineBreak(transformersPanel);
+    transformerSlots.push({
+        select: select,
+        optionsInput: optionsInput
+    });
 }
-
-processButton = yoob.makeButton(transformersPanel, "Process", function() {
-    var t = transformer['identity'].makeTransformer({});
-    for (var i = 0; i < transformerSelects.length; i++) {
-        var select = transformerSelects[i];
-        var transformerName = select.options[select.selectedIndex].value;
-        var t2 = transformer[transformerName].makeTransformer({chars: 'a'});
-        t = compose(t2, t);
-    }
-    output.value = t(input.value);
-});
 
 output = yoob.makeTextArea(container, 40, 20);
 </script>
