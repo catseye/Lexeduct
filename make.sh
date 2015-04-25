@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd src
-node gen-lexeduct-browser.js >../demo/lexeduct-browser.js
+node gen-lexeduct-transformers.js >../demo/lexeduct-transformers.js
