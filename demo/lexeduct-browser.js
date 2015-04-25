@@ -18,10 +18,9 @@ function LexeductUI() {
     var transformerNames;
 
     this.init = function(cfg) {
-        container = document.getElementById('container');
-        input = yoob.makeTextArea(container, 40, 20);
-        input.value = document.getElementById('initial-text').innerHTML;
-        
+        container = cfg.container;
+        input = yoob.makeTextArea(container, 40, 20, cfg.initialText);
+
         var transformersPanel = yoob.makeDiv(container);
         transformersPanel.style.border = "2px solid black";
         transformersPanel.style.display = "inline-block";
