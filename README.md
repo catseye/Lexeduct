@@ -114,7 +114,7 @@ TODO
 *   Dynamically allocate the number of transformer-slots.
 *   Provide "insert" and "delete" operations on each transformer-slot.
 *   Display the description for each select transformer, in a tooltip(?)
-*   Create prompts for available params dynamically in each transformer-slot.
+*   Better live mode (do on each keypress in param input, input text.)
 
 [Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
 [TextMunger]:           https://github.com/MichaelPaulukonis/text-munger
