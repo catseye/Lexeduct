@@ -10,7 +10,7 @@ module.exports = {
         };
     },
     parameters: {
-        'chars': "The set of characters to select from"
+        'chars': ["The set of characters to select from", ""]
     },
     description: "Insert a randomly-selected character after each character"
 };

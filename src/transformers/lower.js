@@ -14,7 +14,7 @@ module.exports = {
         };
     },
     parameters: {
-        'chance': "Probability (0-100) of applying to any individual character"
+        'chance': ["Probability (0-100) of applying to any individual character", "100"]
     },
     description: "Convert characters to lowercase"
 };

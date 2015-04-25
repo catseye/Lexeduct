@@ -11,6 +11,12 @@
 
 <div id="container"></div>
 
+<pre style="display: none;" id="initial-text">
+This is a text.
+It is a text.
+And such things.
+</pre>
+
 </body>
 <script src="lexeduct-browser.js"></script>
 <script src="yoob/element-factory.js"></script>
@@ -27,7 +33,8 @@ var compose = function(g, f) {
 var container, input, output, processButton, tranformersPanel;
 
 container = document.getElementById('container');
-input = yoob.makeTextArea(container, 40, 20, "Hello, there!\nWhat do you think?");
+input = yoob.makeTextArea(container, 40, 20);
+input.value = document.getElementById('initial-text').innerHTML;
 
 var transformersPanel = yoob.makeDiv(container);
 transformersPanel.style.border = "2px solid black";
@@ -88,12 +95,11 @@ var updateParametersPanel = function(slot, panel) {
     panel.innerHTML = "";  // delete any previous controls
     for (var key in parameters) {
         if (parameters.hasOwnProperty(key)) {
+            var desc = parameters[key][0];
+            var def = parameters[key][1];
             var label = yoob.makeSpan(panel, key);
-            label.style.width = "50%";
-            var input = yoob.makeTextInput(panel, 24);
-            input.style.width = "50%";
-            // TODO: populate it with the default
-            // TODO: and assign it to slot.selectedParams[key]
+            var input = yoob.makeTextInput(panel, 24, def);
+            slot.selectedParams[key] = def;
             input.onchange = function() {
                 slot.selectedParams[key] = input.value;
                 if (liveMode) {
@@ -111,7 +117,10 @@ var makeTransformerSlot = function(container, index) {
     );
     yoob.makeLineBreak(transformersPanel);
     var parametersPanel = yoob.makeDiv(transformersPanel);
-    
+    parametersPanel.style.padding = "2px";
+    parametersPanel.style.border = "1px solid blue";
+    parametersPanel.style.textAlign = "right";
+
     select.onchange = function(e) {
         transformerSlots[index].name = select.options[select.selectedIndex].value;
         updateParametersPanel(transformerSlots[index], parametersPanel);

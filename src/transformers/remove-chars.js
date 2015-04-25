@@ -12,7 +12,7 @@ module.exports = {
         };
     },
     parameters: {
-        'chars': "The set of characters to select from"
+        'chars': ["The set of characters to remove", ""]
     },
     description: "Remove all occurrences of the specified characters"
 };
