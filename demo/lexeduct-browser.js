@@ -67,22 +67,26 @@ function LexeductUI() {
     this.updateParametersPanel = function(slot, panel) {
         var parameters = transformer[slot.name].parameters;
         panel.innerHTML = "";  // delete any previous controls
-        for (var key in parameters) {
-            if (parameters.hasOwnProperty(key)) {
-                var desc = parameters[key][0];
-                var def = parameters[key][1];
-                var label = yoob.makeSpan(panel, key);
-                var input = yoob.makeTextInput(panel, 24, def);
-                slot.selectedParams[key] = def;
-                input.onchange = function() {
-                    slot.selectedParams[key] = input.value;
-                    if (liveMode) {
-                        process();
-                    }
-                }
-                yoob.makeLineBreak(panel);
+        for (var paramName in parameters) {
+            if (parameters.hasOwnProperty(paramName)) {
+                var desc = parameters[paramName][0];
+                var def = parameters[paramName][1];
+                this.makeParameterEditor(slot, panel, paramName, desc, def);
             }
         }
+    };
+
+    this.makeParameterEditor = function(slot, panel, paramName, desc, def) {
+        var label = yoob.makeSpan(panel, paramName);
+        var input = yoob.makeTextInput(panel, 24, def);
+        slot.selectedParams[paramName] = def;
+        input.onchange = function() {
+            slot.selectedParams[paramName] = input.value;
+            if (liveMode) {
+                process();
+            }
+        }
+        yoob.makeLineBreak(panel);
     };
 
     this.makeTransformerSlot = function(container, index) {
