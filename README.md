@@ -70,16 +70,10 @@ transformer function takes two arguments: the current string to process, and
 transformer function should return either a string, or null (not yet supported),
 or an array of strings (not yet supported.)
 
-As a simple example, here is the source of the `upper` transformer, found
-in `src/transformers/upper.js`:
-
-    module.exports = {
-        makeTransformer: function(cfg) {
-            return function(str, state) {
-                return str.toUpperCase();
-            };
-        }
-    };
+The module may also export a couple of other things, like an English description
+of the transformer, and the possible configuration options.  For a reasonably
+simple example, see the source of the `upper` transformer, found
+in [src/transformers/upper.js](src/transformers/upper.js).
 
 `state` is an object whose members may be read or written to store ancillary
 state.  (Doing so will make it an 'impure' pipeline.)
@@ -99,23 +93,10 @@ Acknowledgements
 
 Lexeduct was partly inspired by, and is partly a product of parallel evolution
 resembling, [Michael Paulukonis][]'s [TextMunger][].  It is also indebted to
-various and sundry discussion with him and others on the
-[GenerativeText Forum][].
-
-TODO
-----
-
-*   Allow filters to do something at the very end, maybe.
-*   Allow filters return multiple, or no, strings.
-*   Many, many other things.
-
-### In-browser UI ###
-
-*   Dynamically allocate the number of transformer-slots.
-*   Provide "insert" and "delete" operations on each transformer-slot.
-*   Display the description for each select transformer, in a tooltip(?)
-*   Better live mode (do on each keypress in param input, input text.)
+various and sundry discussion with him, and others on the
+[GenerativeText Forum][], particularly [John Ohno][].
 
 [Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
 [TextMunger]:           https://github.com/MichaelPaulukonis/text-munger
 [GenerativeText Forum]: https://groups.google.com/forum/#!forum/generativetext
+[John Ohno]:            https://github.com/enkiv2/
