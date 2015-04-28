@@ -1,14 +1,18 @@
 Lexeduct
 ========
 
-**Lexeduct** is an experimental framework for text-processing pipelines, written
-in Javascript, usable in both node and in the browser (knock on wood.)
+> "this is not a wheel I've re-invented before"
 
-It is currently at a *what is this I don't even* stage of development.  The
-framework and usage and everything is subject to change without notice.
+**Lexeduct** is an experimental framework for text-processing pipelines,
+written in Javascript, usable both on the console under [Node.js][], and
+in a web browser.
+
+It is currently a work in progress.  The framework and usage and everything
+is subject to change without notice.  The version number is nominally 0.1-PRE;
+there is not yet a released version.
 
 Being a framework, Lexeduct inevitably handles some use cases well, and other
-use cases poorly.  Don't expect too much from it.  More details here soon.
+use cases poorly.  See the "Limitations" section below for more details.
 
 The name "Lexeduct" is in analogy with "aqueduct": conduits for words intead
 of water.
@@ -18,8 +22,11 @@ Basic Usage
 
 The main tool is `lexeduct.js`.  You can `cd` into the `src` directory and run
 it as `./lexeduct.js`, or you can put the `src` directory on your executable
-search path (e.g. `export PATH=$PATH:/path/to/lexeduct/src`) and run it as
-`lexeduct.js` from anywhere on your system.  (YMMV on Windows.)
+search path, for example like
+
+    export PATH=$PATH:/path/to/lexeduct/src
+
+and run it as `lexeduct.js` from anywhere on your system.  (YMMV on Windows.)
 
 The basic usage is
 
@@ -31,28 +38,28 @@ So, for example,
     HELLO
 
 Parameters can be given with the syntax `name=value` before the name of the
-transformer they are to be applied to.  So, for example,
+transformer they are to be applied to:
 
     $ echo 'Hello' | lexeduct.js chars=e remove-chars
     Hllo
 
 You can of course use shell pipelines to compose transformers:
 
-    $ echo 'Hello!' | lexeduct.js upper | lexeduct.js 'chars= ' insert-chars
+    $ echo 'Hello!' | lexeduct.js upper | lexeduct.js chars=' ' insert-chars
     H E L L O !
 
 *Or* you can name multiple transformers on `lexeduct.js`'s command line to
 compose them:
 
-    $ echo 'Hello!' | lexeduct.js upper 'chars= ' insert-chars
+    $ echo 'Hello!' | lexeduct.js upper chars=' ' insert-chars
     H E L L O !
 
 Multiple transformers are applied left-to-right.
 
-    $ echo 'Hello!' | lexeduct.js 'chars=a' insert-chars upper
+    $ echo 'Hello!' | lexeduct.js chars=a insert-chars upper
     HAEALALAOA!A
 
-    $ echo 'Hello!' | lexeduct.js upper 'chars=a' insert-chars
+    $ echo 'Hello!' | lexeduct.js upper chars=a insert-chars
     HaEaLaLaOa!a
 
 Transformers
@@ -75,8 +82,8 @@ of the transformer, and the possible configuration options.  For a reasonably
 simple example, see the source of the `upper` transformer, found
 in [src/transformers/upper.js](src/transformers/upper.js).
 
-`state` is an object whose members may be read or written to store ancillary
-state.  (Doing so will make it an 'impure' pipeline.)
+State deposited into the state object is shared by all transformers, so it's
+a good idea to choose a key that you think will probably be unique.
 
 In-Browser Version
 ------------------
@@ -85,7 +92,7 @@ Run `./make.sh` from this directory (or the commands it contains) to generate
 a Javascript file which contains all the available transformers in a format
 suitable for loading in an HTML document.
 
-Open `demo/lexeduct.html` in your browser.  It provides a UI for composing
+Then open `demo/lexeduct.html` in your browser.  It provides a UI for composing
 these transformers and applying them to text provided in a textarea.
 
 Acknowledgements
@@ -96,6 +103,7 @@ resembling, [Michael Paulukonis][]'s [TextMunger][].  It is also indebted to
 various and sundry discussion with him, and others on the
 [GenerativeText Forum][], particularly [John Ohno][].
 
+[Node.js]:              https://nodejs.org/
 [Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
 [TextMunger]:           https://github.com/MichaelPaulukonis/text-munger
 [GenerativeText Forum]: https://groups.google.com/forum/#!forum/generativetext
