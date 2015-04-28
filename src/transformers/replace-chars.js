@@ -5,18 +5,22 @@ module.exports = {
             var s = "";
             for (var i = 0; i < str.length; i++) {
                 var c = str.charAt(i);
-                if (cfg.chars.indexOf(c) > -1 &&
+                if (cfg.search.indexOf(c) > -1 &&
                     Math.floor(Math.random() * 100) < cfg.chance) {
-                    continue;
+                    s += cfg.replace.charAt(
+                        Math.floor(Math.random() * cfg.replace.length)
+                    );
+                } else {
+                    s += c;
                 }
-                s += c;
             }
             return s;
         };
     },
     parameters: {
-        'chars': ["The set of characters to remove", ""],
+        'search': ["The set of characters to look for", ""],
+        'replace': ["The set of characters to substitute in place", ""],
         'chance': ["Probability (0-100) of applying to any individual character", "100"]
     },
-    description: "Remove occurrences of the specified characters"
+    description: "Replace occurrences of the specified characters"
 };
