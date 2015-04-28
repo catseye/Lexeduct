@@ -25,12 +25,15 @@ function LexeductUI() {
         input = yoob.makeTextArea(container, 40, 20, cfg.initialText);
         input.onkeyup = function() {
             if ($this.liveMode) {
+                // TODO don't do this if it's a deadkey like shift
                 $this.process();
             }
         };
 
         var transformersPanel = yoob.makeDiv(container);
-        transformersPanel.style.border = "2px solid black";
+        transformersPanel.style.border = "1px solid black";
+        transformersPanel.style.padding = "2px";
+        transformersPanel.style.margin = "2px";
         transformersPanel.style.display = "inline-block";
         transformersPanel.style.verticalAlign = "top";
 
@@ -98,6 +101,7 @@ function LexeductUI() {
         paramInput.onkeyup = function() {
             slot.selectedParams[paramName] = paramInput.value;
             if ($this.liveMode) {
+                // TODO don't do this if it's a deadkey like shift
                 $this.process();
             }
         };
@@ -105,13 +109,15 @@ function LexeductUI() {
     };
 
     this.makeTransformerSlot = function(container, index) {
+        var slotPanel = yoob.makeDiv(container);
+        slotPanel.style.padding = "2px";
+        slotPanel.style.margin = "2px";
+        slotPanel.style.border = "1px solid black";
         var select = yoob.makeSelect(
-            container, "Transformer " + (index+1), transformerNames
+            slotPanel, "Transformer " + (index+1), transformerNames
         );
-        yoob.makeLineBreak(container);
-        var parametersPanel = yoob.makeDiv(container);
-        parametersPanel.style.padding = "2px";
-        parametersPanel.style.border = "1px solid blue";
+        yoob.makeLineBreak(slotPanel);
+        var parametersPanel = yoob.makeDiv(slotPanel);
         parametersPanel.style.textAlign = "right";
 
         var $this = this;
@@ -125,9 +131,7 @@ function LexeductUI() {
 
         return {
             name: 'identity',
-            selectedParams: {},
-            select: select,
-            parametersPanel: parametersPanel
+            selectedParams: {}
         };
     };
 
