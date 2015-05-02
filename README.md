@@ -9,9 +9,8 @@ Lexeduct
 written in Javascript, usable both on the console under [Node.js][], and
 in a web browser.
 
-It is currently a work in progress.  The framework and usage and everything
-is subject to change without notice.  The version number is nominally 0.1-PRE;
-there is not yet a released version.
+It is currently a work in progress.  The current released version is 0.1.
+The framework and usage and everything is subject to change without notice.
 
 Being a framework, Lexeduct inevitably handles some use cases well, and other
 use cases poorly.  See the "Limitations" section below for more details.
@@ -95,6 +94,14 @@ suitable for loading in an HTML document.
 
 Then open `demo/lexeduct.html` in your browser.  It provides a UI for composing
 these transformers and applying them to text provided in a textarea.
+
+Limitations
+-----------
+
+The main limitation is that every filter is line-based.  Even the filters
+that work on words take a line, split it into words, do whatever it is they
+do to the words, then stick the words back together to form a new line,
+destroying any irregular spacing in the original line.
 
 Acknowledgements
 ----------------
