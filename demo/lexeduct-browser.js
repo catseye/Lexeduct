@@ -23,9 +23,8 @@ function LexeductUI() {
         cfg.liveMode = !!cfg.liveMode;
 
         input = yoob.makeTextArea(container, 40, 20, cfg.initialText);
-        input.onkeyup = function() {
+        input.oninput = function() {
             if ($this.liveMode) {
-                // TODO don't do this if it's a deadkey like shift
                 $this.process();
             }
         };
@@ -98,10 +97,9 @@ function LexeductUI() {
         var paramInput = yoob.makeTextInput(panel, 24, def);
         slot.selectedParams[paramName] = def;
         var $this = this;
-        paramInput.onkeyup = function() {
+        paramInput.oninput = function() {
             slot.selectedParams[paramName] = paramInput.value;
             if ($this.liveMode) {
-                // TODO don't do this if it's a deadkey like shift
                 $this.process();
             }
         };
