@@ -111,7 +111,7 @@ resembling, [Michael Paulukonis][]'s [TextMunger][].  It is also indebted to
 various and sundry discussion with him, and others on the
 [GenerativeText Forum][], particularly [John Ohno][].
 
-[Lexeduct Online]:      http://catseye.github.io/Lexeduct/in-browser/
+[Lexeduct Online]:      https://catseye.tc/installation/Lexeduct
 [Node.js]:              https://nodejs.org/
 [upper.js]:             https://github.com/catseye/Lexeduct/blob/master/src/transformers/upper.js
 [Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
