@@ -1,10 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
 
+
 def write(s):
     sys.stdout.write(s + "\n")
+
 
 def main(args):
     write("module = {};")
@@ -17,7 +19,8 @@ def main(args):
             transformer_name = filename.split('.js')[0]
             with open(os.path.join(dirname, filename)) as f:
                 write(f.read())
-            write("transformer['%s'] = module.exports;" % transformer_name)
+            write("transformer['{}'] = module.exports;".format(transformer_name))
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
