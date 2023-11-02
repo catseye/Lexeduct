@@ -80,7 +80,8 @@ or an array of strings (not yet supported.)
 
 The module may also export a couple of other things, like an English description
 of the transformer, and the possible configuration options.  For a reasonably
-simple example, see the source of the `upper` transformer, in [upper.js][].
+simple example, see the source of the `upper` transformer, in
+[upper.js](src/transformers/upper.js).
 
 State deposited into the state object is shared by all transformers, so it's
 a good idea to choose a key that you think will probably be unique.
@@ -113,8 +114,7 @@ various and sundry discussion with him, and others on the
 
 [Lexeduct Online]:      https://catseye.tc/installation/Lexeduct
 [Node.js]:              https://nodejs.org/
-[upper.js]:             https://github.com/catseye/Lexeduct/blob/master/src/transformers/upper.js
-[Michael Paulukonis]:   https://github.com/MichaelPaulukonis/
+[Michael Paulukonis]:   https://michaelpaulukonis.github.io/
 [TextMunger]:           https://github.com/MichaelPaulukonis/text-munger
 [GenerativeText Forum]: https://groups.google.com/forum/#!forum/generativetext
-[John Ohno]:            https://github.com/enkiv2/
+[John Ohno]:            https://www.lord-enki.net/
